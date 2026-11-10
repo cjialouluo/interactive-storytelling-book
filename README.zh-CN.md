@@ -6,10 +6,6 @@ Three.js · WebGL · creative coding · 立体书 · 交互叙事
 
 [English](README.md)
 
-<video src="docs/demo.mp4" controls playsinline></video>
-
-[播放演示](docs/demo.mp4)
-
 ![合上的书。标题在左上角，没有角标按钮。](docs/cover.png)
 
 整本书是一个封面加两个故事。两个故事都是普通的场景文件。一个场景就是一叠卡片。卡片可以是一张图片，也可以是用代码画出来的纸片，同一页上两种都能放。

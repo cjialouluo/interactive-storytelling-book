@@ -6,10 +6,6 @@ Three.js · WebGL · creative coding · pop-up book · interactive storytelling
 
 [中文说明](README.zh-CN.md)
 
-<video src="docs/demo.mp4" controls playsinline></video>
-
-[Play the demo](docs/demo.mp4)
-
 ![The closed book. The title sits at the top left, with no corner button.](docs/cover.png)
 
 The book is one cover plus two stories. Both stories are ordinary scene files. A scene is a list of cards. A card is either a picture or a shape you draw in code, and one page can hold both.
