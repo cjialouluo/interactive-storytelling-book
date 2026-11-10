@@ -1,0 +1,26 @@
+{
+  "name": "lucias-valley",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Interactive Three.js pop-up book. Fold WebGL paper scenes from image cards or drawn shapes.",
+  "keywords": [
+    "threejs",
+    "three.js",
+    "webgl",
+    "creative-coding",
+    "pop-up-book",
+    "popup-book",
+    "interactive",
+    "storytelling",
+    "vite"
+  ],
+  "scripts": {
+    "dev": "vite --port 5199",
+    "build": "vite build",
+    "preview": "vite preview --port 5199"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

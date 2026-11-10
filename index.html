@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lucia's Valley</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%230e1b1f%27/%3E%3Cpath d=%27M8 24V8h12v3h-9v4h8v3h-8v6z%27 fill=%27%23e8c27a%27/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root { --ink: #1d1a17; --ink2: rgba(29,26,23,0.62); --accent: #ff5424; }
+  html, body { margin: 0; height: 100%; background: #6e4a32; overflow: hidden; font-family: Inter, system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+  canvas:active { cursor: grabbing; }
+  #ui { position: fixed; inset: 0; pointer-events: none; }
+  #ui button { font: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+  .glass { position: absolute; pointer-events: auto; }
+  #ui .pagebtn { position: absolute; pointer-events: auto; top: 50%; width: 72px; height: 96px; transform: translateY(-50%); display: grid; place-items: center; background: none; border-radius: 0; transition: opacity .35s ease, transform .2s ease; }
+  .pagebtn.prev { left: 16px; }
+  .pagebtn.next { right: 16px; }
+  .pagebtn .frost { width: 46px; height: 68px; pointer-events: none;
+    background: linear-gradient(165deg, rgba(255,255,255,.78), rgba(255,246,232,.34) 58%, rgba(255,255,255,.62));
+    -webkit-backdrop-filter: blur(14px) saturate(1.55);
+    backdrop-filter: blur(14px) saturate(1.55);
+    -webkit-mask: var(--chev) center / contain no-repeat;
+    mask: var(--chev) center / contain no-repeat;
+    filter: drop-shadow(0 1px 0 rgba(255,255,255,.7)) drop-shadow(0 2px 5px rgba(40,22,8,.22)); }
+  #ui { --chev: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 72'%3E%3Cpath d='M14 15 L36 36 L14 57' fill='none' stroke='black' stroke-width='6.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+  .pagebtn.prev .frost { transform: scaleX(-1); }
+  #ui .pagebtn:hover { transform: translateY(-50%) scale(1.06); }
+  #ui .pagebtn:active { transform: translateY(-50%) scale(0.96); }
+  .pagebtn:disabled { opacity: 0; pointer-events: none; }
+  .hero { position: absolute; left: 34px; top: 28px; max-width: 360px; opacity: 0; transform: translateY(8px); transition: opacity .6s, transform .6s; }
+  .hero.show { opacity: 1; transform: none; }
+  .hero h1 { font-family: Fraunces, serif; font-weight: 500; font-size: 48px; line-height: 0.98; letter-spacing: -0.02em; margin: 0 0 12px; color: #fff8ef; text-shadow: 0 2px 18px rgba(60,30,10,0.35); }
+  .hero p { font-size: 14px; line-height: 1.5; color: rgba(255,248,239,0.88); margin: 0; text-shadow: 0 1px 10px rgba(60,30,10,0.4); }
+  .hint { left: 18px; bottom: 18px; height: 60px; padding: 0 18px 0 14px; display: flex; align-items: center; gap: 12px; opacity: 0; transform: translateY(6px); transition: opacity .6s, transform .6s; pointer-events: none; }
+  .hint.show { opacity: 1; transform: none; }
+  .hint .ico { width: 32px; height: 32px; border-radius: 16px; display: grid; place-items: center; background: rgba(29,26,23,0.08); }
+  .hint .txt { display: flex; flex-direction: column; }
+  .hint b { font-family: Fraunces, serif; font-weight: 600; font-size: 14px; line-height: 1.15; }
+  .hint small { font-size: 11px; color: var(--ink2); }
+  .hint .mouse .wheel { animation: wheel 1.6s cubic-bezier(.5,0,.5,1) infinite; }
+  @keyframes wheel { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 1; } 70% { transform: translateY(6px); opacity: 0; } 100% { transform: translateY(6px); opacity: 0; } }
+  .hint .swipe .tip { animation: tip 1.8s cubic-bezier(.4,0,.3,1) infinite; }
+  .hint .swipe .trail { animation: trail 1.8s cubic-bezier(.4,0,.3,1) infinite; }
+  @keyframes tip { 0% { transform: translateX(0); opacity: 0; } 15% { opacity: 1; } 70% { transform: translateX(-13px); opacity: 1; } 100% { transform: translateX(-13px); opacity: 0; } }
+  @keyframes trail { 0%, 15% { stroke-dashoffset: 0; opacity: 0.2; } 70% { opacity: 0.9; } 100% { stroke-dashoffset: -10; opacity: 0; } }
+  @media (max-width: 1080px) { .hint small { display: none; } .hint { padding: 0 14px 0 12px; } }
+  @media (max-width: 720px) {
+    #ui .pagebtn { width: 40px; height: 80px; }
+    .pagebtn .frost { width: 28px; height: 56px; }
+    .pagebtn.prev { left: 12px; }
+    .pagebtn.next { right: 12px; }
+    .hero { left: 20px; top: 20px; } .hero h1 { font-size: 34px; }
+    .hint { left: 12px; bottom: 16px; height: 44px; padding: 0 14px 0 8px; gap: 8px; }
+    .hint .ico { width: 28px; height: 28px; }
+    .hint b { font-size: 13px; }
+  }
+  #loader { position: fixed; inset: 0; display: grid; place-items: center; background: radial-gradient(ellipse at 50% 40%, #8a5d3e, #5e3c27 70%); color: #fff3e2; font: 500 13px Inter, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; transition: opacity .8s; z-index: 5; }
+  #loader span::after { content: ''; display: block; height: 2px; margin-top: 10px; background: linear-gradient(90deg, transparent, #ffd93b, transparent); animation: sweep 1.4s ease-in-out infinite; }
+  @keyframes sweep { 0% { transform: scaleX(0.1); opacity: 0.3; } 50% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(0.1); opacity: 0.3; } }
+  body.ready #loader { opacity: 0; pointer-events: none; }
+</style>
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui"></div>
+<div id="loader"><span>Unfolding</span></div>
+</body>
+</html>
